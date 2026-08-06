@@ -1,0 +1,8 @@
+class Solution {
+    public boolean isPalindrome(int x) 
+    {
+        int num=x;
+        int sum=0;
+        while(x>0)
+        {
+            int ls=x%10;
