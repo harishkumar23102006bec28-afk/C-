@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, q;
+    
+    if (scanf("%d %d", &n, &q) != 2) return 0;
+
+    int* counts = (int*)calloc(n, sizeof(int));
+    int* capacities = (int*)calloc(n, sizeof(int));
+    int** arr = (int**)malloc(n * sizeof(int*));
+    
+    for (int i = 0; i < n; i++) {
+        capacities[i] = 2; 
+        arr[i] = (int*)malloc(capacities[i] * sizeof(int));
+    }
+    
+    int lastAnswer = 0;
+
+    for (int i = 0; i < q; i++) {
+        int type, x, y;
+        if (scanf("%d %d %d", &type, &x, &y) != 3) break;
+        
+        int idx = (x ^ lastAnswer) % n;
+        
+        if (type == 1) {
+            if (counts[idx] >= capacities[idx]) {
+                capacities[idx] *= 2;
+                arr[idx] = (int*)realloc(arr[idx], capacities[idx] * sizeof(int));
+            }
+            arr[idx][counts[idx]++] = y;
+            
+        } else if (type == 2) {
+            int size = counts[idx];
+            lastAnswer = arr[idx][y % size];
+            printf("%d\n", lastAnswer);
+        }
+    }
+    
+    for (int i = 0; i < n; i++) {
+        free(arr[i]);
+    }
+    free(arr);
+    free(counts);
+    free(capacities);
+    
+    return 0;
+}
