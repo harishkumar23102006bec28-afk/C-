@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int* rotateLeft(int d, int arr_count, int* arr, int* result_count) {
+    *result_count = arr_count;
+    d = d % arr_count;
+    
+    int* rotated_arr = (int*)malloc(arr_count * sizeof(int));
+    if (rotated_arr == NULL) {
+        return NULL; 
+    }
+    
+    int index = 0;
+    for (int i = d; i < arr_count; i++) {
+        rotated_arr[index++] = arr[i];
+    }
+    for (int i = 0; i < d; i++) {
+        rotated_arr[index++] = arr[i];
+    }
+    
+    return rotated_arr;
+}
+
+int main() {
+    int n, d;
+    if (scanf("%d %d", &n, &d) != 2) return 0;
+    
+    int* arr = (int*)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) {
+        if (scanf("%d", &arr[i]) != 1) return 0;
+    }
+    
+    int result_count = 0;
+    int* result = rotateLeft(d, n, arr, &result_count);
+    
+    for (int i = 0; i < result_count; i++) {
+        printf("%d", result[i]);
+        if (i < result_count - 1) {
+            printf(" ");
+        }
+    }
+    printf("\n");
+    
+    free(arr);
+    free(result);
+    
+    return 0;
+}
