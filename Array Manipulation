@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, m;
+    if (scanf("%d %d", &n, &m) != 2) {
+        return 0;
+    }
+
+    long* diff = (long*)calloc(n + 2, sizeof(long));
+    if (!diff) {
+        return 0;
+    }
+
+    for (int i = 0; i < m; i++) {
+        int a, b;
+        long k;
+        if (scanf("%d %d %ld", &a, &b, &k) == 3) {
+            diff[a] += k;
+            diff[b + 1] -= k;
+        }
+    }
+
+    long max_val = 0;
+    long current_sum = 0;
+    for (int i = 1; i <= n; i++) {
+        current_sum += diff[i];
+        if (current_sum > max_val) {
+            max_val = current_sum;
+        }
+    }
+
+    printf("%ld\n", max_val);
+
+    free(diff);
+    return 0;
+}
